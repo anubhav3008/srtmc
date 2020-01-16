@@ -1,0 +1,37 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+  
+  <bean id="db" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <property name="url" value="jdbc:postgresql://ec2-23-21-129-125.compute-1.amazonaws.com:5432/deh0n3uoaa9mun?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory"/>
+  	<property name="driverClassName" value= "org.postgresql.Driver"></property>
+  	<property name="username" value="paoaszezelehkl"></property>
+  	<property name="password" value="e8d54047d98e19d4d9873d15ce85d42b1c57c58c60588b8f130e4e01d73865f5"></property>
+  	
+  </bean>
+
+  
+  <bean id="transactionManager"
+    class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource" ref="db"/>
+  </bean>
+  <tx:annotation-driven transaction-manager="transactionManager"/>
+
+  
+  <bean id="jdbi"
+    class="org.jdbi.v3.spring4.JdbiFactoryBean">
+    <property name="dataSource" ref="db"/>
+      <property name="autoInstallPlugins" value="true"/>
+      <property name="plugins">
+    <list>
+      <bean class="org.jdbi.v3.sqlobject.SqlObjectPlugin"/>
+    </list>
+  </property>
+  </bean>
+</beans>
